@@ -21,7 +21,7 @@ firebase.initializeApp({
   credential: firebase.credential.cert(serviceAccount),
   databaseURL: process.env.FIREBASE_databaseURL,
   databaseAuthVariableOverride: {
-    uid: process.env.FIREBASE_REALTIME_DB_KEY
+    //uid: process.env.FIREBASE_REALTIME_DB_KEY
   }
 });
 

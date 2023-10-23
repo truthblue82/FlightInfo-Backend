@@ -1,6 +1,7 @@
 /node_modules
 /.env
 /firebaseAccountKey.json
+/firebaseAccountKey2.json
 .firebase 
 .DS_Store
 Thumbs.db
