@@ -3,7 +3,8 @@ const firebase = require('firebase-admin');
 const jwt = require('jsonwebtoken');
 const { getDatabase } = require('firebase-admin/database');
 
-const serviceAccount = require("../firebaseAccountKey.json");
+//const serviceAccount = require("../firebaseAccountKey.json");
+const serviceAccount = require("../firebaseKey.json");
 // const serviceAccount = {
 //   "type": process.env.TYPE,
 //   "project_id": process.env.PROJECT_ID,
