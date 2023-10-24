@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "flight-info-monster-backend",
+  "private_key_id": "9e64d1ceb115fa889092902cabbb4bebcda34752",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCe9emduZrX5kGv\nKUU1biNVdDAO1uA9C10huioEFIOG2gannysyQ2oQoqnG5DNehwbn3sJyElxtsJC7\n+ke1iY52cqlicvFuXyb1OJVxHwRAOof++Qv2TmPJ5D7aibhBmf8YBVraeUHShQpS\niCnClELC29n0trlUU9PasYnt9VSFd3lLeMZ1y+AJLctMquCxKlmDMNfMGrJd2pUK\nyChbik+zPJyF4vmpHq2TDry9zjZpSDdYh0PyEbIvgKULmfKVIzbgj4oNp5DDJTYB\nsG0sfVSUMHfjRYpLgBpoz56P9c5egZ40PEi0osadwTN4lULcWiGkpVbW2XCjtRBk\nG3BcWbrpAgMBAAECggEABHl2Fb09fVHLLAfMnawnvPZMCwLj5Xv+J16i46IDMMbO\n1KWPlPbeU7EMd9+BDapd2KWF0imvpdvIOy5YmeTRGIbyOyXyo1F02oa4+CnwF/G9\n1cDDZC/BMdPlrAef4uLXkiDGdatfnbImf/u6tzIureb7295P2a6RYlDIieTzt90B\nbcfKyXqekFQt07IlVMjESShHFtn3Xu65h5JEwYvlfO9EQGaA0La3wKNxHZfOCLt8\n4CXTgpcOiKlaxa/j2hqHk8ygm7EamZ2DdGWuNDd0Eg6A7soT6T3zMBIdfwjG2jvb\nz8t0fAwnK8REvIXNmboyk64cXCPekGrCuVHy4K5cIQKBgQDabl6g2vq0pvfIyQwJ\nFI65B0Y/FDpRo6f57o8dapQ3Mr3VEAdaiRSWjNvlMJy+xQ0JQVstSbC0Zid//GQB\nCmFZznVm1ST64LU3QTE8CGLkQwu/4EYL776pHvUmbL4HTpI65QXhSBvMz2fyIM5x\npssc3aNN6J/dukr+M7sw0YStEQKBgQC6TQaj2Y4aFDjVQc/Bc91cSb3O7PL6J27N\nuJPkoY/9QbM+bzI4XnKXD781ol31/QrWb+OXwx4wpqLOqv6jK9qBVNK3qaY+fzv7\nBHn5VY3A1pAGnsSyHFskeacvBMES3XZNiRzmifZqDJiseCPHCjhq05w0iiNpT0wl\nZdBiJeCQWQKBgFFpFWfKdepi2LNDC3NO8CrSJUJZXasT3gVu/nQuRvOTu+DvSm5Z\n7Qx3j3WKesE3XDZ432yvrGZwNISlIvioT8RTCLq88j13BtODPsBrN8BvpK9s/W5x\nepQ575DUsrayeBnvRhPC9mmNW+aIh6kgS0+E49qjuwG+7zhzO29kh5ihAoGAYNMZ\niVzPgvRRmVxr6qIaQRW+RWZW3fZSmy68Bo6FdF2KF//YvP0xVxuDCBAL/4X09QAP\n7FcnQKfKY9jxIMLw/Fimb3gHg+HCvbJU5mY1lyysjBRGLD+aivmDD2fMJM7e5mtF\njvfTDsjfLHwANDk2mybBv3iv8NKaw7EHvYrsDHkCgYAYxP+SRM07pI0lOujvULUa\nR+1wH+RPTvNiWPCY/eUjfw2GEH77hzgRE03M0QolmCtaoidrO35o803VesxEVSIm\nF8rhJpb9q/e2DfOANFZ5tfzI4JgVpNZ4a/IETgcmTGq0N52OPrWJxfSbHf0H8QXz\n1Mo1aRBf7JW7KNHIXjVi+w==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-gho9h@flight-info-monster-backend.iam.gserviceaccount.com",
+  "client_id": "103187575220155428960",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-gho9h%40flight-info-monster-backend.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
