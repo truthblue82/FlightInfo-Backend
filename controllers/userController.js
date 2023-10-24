@@ -3,8 +3,8 @@ const firebase = require('firebase-admin');
 const jwt = require('jsonwebtoken');
 const { getDatabase } = require('firebase-admin/database');
 
-//const serviceAccount = require("../firebaseAccountKey.json");
-const serviceAccount = require("../firebaseKey.json");
+const serviceAccount = require("../firebaseAccountKey.json");
+
 // const serviceAccount = {
 //   "type": process.env.TYPE,
 //   "project_id": process.env.PROJECT_ID,
@@ -103,6 +103,35 @@ exports.getUserByEmail = async (req, res) => {
       if (snapshot.exists()) {
         return res.status(200).json(snapshot.val());
       } else {
+        return res.status(401).json({ error: "No data available" });
+      }
+    }).catch((error) => {
+      return res.status(500).json({ error: error.code });
+    });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+exports.getUserInfo = async(req, res) => {
+  try {
+    console.log(req.headers.authorization);
+    const token = req.headers.authorization.replace(/Bearer /ig, '');
+    
+    const decode = jwt.decode(token, {
+      complete: true
+    });
+    const email = decode.payload.email;
+    const tmp = email.replace(/[\@\.]/g,'');
+    
+    const dbRef = db.ref(`/users/${tmp}`);
+    
+    dbRef.once('value')
+    .then( (snapshot) => {
+      if (snapshot.exists()) {
+        return res.status(200).json(snapshot.val());
+      } else {
+        console.log('else');
         return res.status(401).json({ error: "No data available" });
       }
     }).catch((error) => {
