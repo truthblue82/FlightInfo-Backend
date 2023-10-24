@@ -1,35 +1,34 @@
-const instance = require('../instancAxios');
-
-const axios = require('axios');
 exports.addFlight = async (req, res) => {
   try {
     let flight = req.body;
     console.log(flight);
-    // instance.post('/', flight)
-    //         .then(result => {
-    //           console.log('result',result);
-    //           return res.status(200).json(result);
-    //         }).catch(err => {
-    //           console.log('error', err);
-    //         });
     const options = {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${process.env.MONSTER_SERVICE_TOKEN}`,
-        'candidate' : process.env.CANDIDATE
+        'candidate' : process.env.CANDIDATE,
+        'token': process.env.MONSTER_SERVICE_TOKEN
       },
       body: JSON.stringify(flight)
     }
     try {
       const response = await fetch(process.env.MONSTER_SERVICE_API, options);
-      const jsonResponse = await response.json();
-      console.log(jsonResponse);
+      if(response.status === 200) {
+        const jsonResponse = await response.json();
+        console.log(jsonResponse);
+        if(jsonResponse === true) {
+          return res.status(200).json(flight);
+        } else {
+          return res.status(2000).json({message: jsonResponse});
+        }
+      } else {
+        return res.status(401).json({error: 'Something went wrong!'})
+      }
     } catch(err) {
-      console.log('ERROR', err);
+      return res.status(500).json({error: err.error.message});
     }
-    
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.error.message });
   }
 }
