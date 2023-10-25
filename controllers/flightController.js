@@ -1,7 +1,6 @@
 exports.addFlight = async (req, res) => {
   try {
     let flight = req.body;
-    console.log(flight);
     const options = {
       method: 'POST',
       headers: { 
@@ -16,7 +15,6 @@ exports.addFlight = async (req, res) => {
       const response = await fetch(process.env.MONSTER_SERVICE_API, options);
       if(response.status === 200) {
         const jsonResponse = await response.json();
-        console.log(jsonResponse);
         if(jsonResponse === true) {
           return res.status(200).json(flight);
         } else {

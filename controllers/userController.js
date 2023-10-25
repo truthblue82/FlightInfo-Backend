@@ -2,22 +2,23 @@ const bcrypt = require('bcrypt');
 const firebase = require('firebase-admin');
 const jwt = require('jsonwebtoken');
 const { getDatabase } = require('firebase-admin/database');
+const { sendMailService } = require('./services/mailService');
 
-//const serviceAccount = require("../firebaseAccountKey.json");
+const serviceAccount = require("../firebaseAccountKey.json");
 
-const serviceAccount = {
-  "type": process.env.TYPE,
-  "project_id": process.env.PROJECT_ID,
-  "private_key_id": process.env.PRIVATE_KEY_ID,
-  "private_key": process.env.PRIVATE_KEY,
-  "client_email": process.env.CLIENT_EMAIL,
-  "client_id": process.env.CLIENT_ID,
-  "auth_uri": process.env.AUTH_URI,
-  "token_uri": process.env.TOKEN_URI,
-  "auth_provider_x509_cert_url": process.env.AUTH_PROVIDER_X509_CERT_URL,
-  "client_x509_cert_url": process.env.CLIENT_X509_CERT_URL,
-  "universe_domain": process.env.UNIVERSE_DOMAIN
-};
+// const serviceAccount = {
+//   "type": process.env.TYPE,
+//   "project_id": process.env.PROJECT_ID,
+//   "private_key_id": process.env.PRIVATE_KEY_ID,
+//   "private_key": process.env.PRIVATE_KEY,
+//   "client_email": process.env.CLIENT_EMAIL,
+//   "client_id": process.env.CLIENT_ID,
+//   "auth_uri": process.env.AUTH_URI,
+//   "token_uri": process.env.TOKEN_URI,
+//   "auth_provider_x509_cert_url": process.env.AUTH_PROVIDER_X509_CERT_URL,
+//   "client_x509_cert_url": process.env.CLIENT_X509_CERT_URL,
+//   "universe_domain": process.env.UNIVERSE_DOMAIN
+// };
 firebase.initializeApp({
   credential: firebase.credential.cert(serviceAccount),
   databaseURL: process.env.FIREBASE_databaseURL,
@@ -92,6 +93,60 @@ exports.login = async(req, res) => {
     return res.status(500).json({ error: err.message });
   }
 }
+exports.authEncrypted = async (req, res) => {
+  let email = req.body.email;
+  try {
+    const tmp = email.replace(/[\@\.]/g,'');
+    const dbRef = db.ref(`/users/${tmp}`);
+    dbRef.once('value')
+    .then( (snapshot) => {
+      if (snapshot.exists()) {
+        // generate a token that expires in 5 mins
+        const token = jwt.sign({id: tmp}, process.env.JWT_SECRET_KEY, { expiresIn: "300s" });
+        return res.status(200).json({ 
+          loginUrl: `${process.env.APP_BASE_URL}?code=${token}`,
+          message: 'This link will be expired in 5 minutes.'});
+      } else {
+        return res.status(401).json({ error: "No data available!" });
+      }
+    }).catch((error) => {
+      return res.status(500).json({ error: error.code });
+    });
+  } catch(err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+exports.verifyEncryptedURL = async (req, res) => {
+  try {
+  let token = req.headers.authorization.replace(/Bearer /ig, '');
+  
+  const encryptedToken = await jwt.verify(token, process.env.JWT_SECRET_KEY);
+  
+  // check user exists
+  const dbRef = db.ref(`/users/${encryptedToken.id}`);
+    dbRef.once('value')
+    .then( async (snapshot) => {
+      if (snapshot.exists()) {
+        const user = snapshot.toJSON();
+        
+        let token2 = jwt.sign({
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+        }, process.env.JWT_SECRET_KEY, { expiresIn: "1h" });
+        
+        return res.status(200).json({ token: token2 });
+      } else {
+        return res.status(401).json({ error: "No data available" });
+      }
+    }).catch((error) => {
+      return res.status(500).json({ error: error.code });
+    });
+  }catch(err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
 
 exports.getUserByEmail = async (req, res) => {
   try {
@@ -115,7 +170,6 @@ exports.getUserByEmail = async (req, res) => {
 
 exports.getUserInfo = async(req, res) => {
   try {
-    console.log(req.headers.authorization);
     const token = req.headers.authorization.replace(/Bearer /ig, '');
     
     const decode = jwt.decode(token, {
@@ -131,7 +185,6 @@ exports.getUserInfo = async(req, res) => {
       if (snapshot.exists()) {
         return res.status(200).json(snapshot.val());
       } else {
-        console.log('else');
         return res.status(401).json({ error: "No data available" });
       }
     }).catch((error) => {
