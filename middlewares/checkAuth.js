@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
 
 module.exports = async (req, res, next) => {
-  if (req.url === '/login' || req.url === '/signup' || req.url === '/link' ) {
+  
+  if (req.url === '/login' || req.url === '/signup' || req.url === '/link' || req.url === '/googlelogin' ) {
     next();
   } else {
     try {
