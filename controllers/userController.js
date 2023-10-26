@@ -103,6 +103,7 @@ exports.authEncrypted = async (req, res) => {
       if (snapshot.exists()) {
         // generate a token that expires in 5 mins
         const token = jwt.sign({id: tmp}, process.env.JWT_SECRET_KEY, { expiresIn: "300s" });
+        
         return res.status(200).json({ 
           loginUrl: `${process.env.APP_BASE_URL}?code=${token}`,
           message: 'This link will be expired in 5 minutes.'});
@@ -193,4 +194,8 @@ exports.getUserInfo = async(req, res) => {
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
+}
+
+exports.googleLogin = async (req, res) => {
+  res.redirect(process.env.APP_BASE_URL);
 }
