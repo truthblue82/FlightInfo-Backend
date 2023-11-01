@@ -197,5 +197,49 @@ exports.getUserInfo = async(req, res) => {
 }
 
 exports.googleLogin = async (req, res) => {
-  res.redirect(process.env.APP_BASE_URL);
+  try {
+    const ggtoken = req.headers.authorization.replace(/Bearer /ig, '');
+      
+    const decode = jwt.decode(ggtoken, {
+      complete: true
+    });
+    if(decode) {
+      let email = decode.payload.email;
+      let firstName = decode.payload.given_name;
+      let lastName = decode.payload.family_name;
+      const tmp = email.replace(/[\@\.]/g,'');
+      const dbRef = db.ref(`/users/${tmp}`);
+      dbRef.get('/')
+      .then(async (snapshot) => {
+        if(snapshot.exists()) {
+          //no need password because of google account
+          const token = jwt.sign({
+            email: email,
+            firstName: firstName,
+            lastName: lastName
+          }, process.env.JWT_SECRET_KEY, { expiresIn: '1h'});
+          return res.status(200).json({ token: token });
+        } else {
+          //insert google user
+          const user = {
+            email: email,
+            firstName: firstName,
+            lastName: lastName,
+            type: 'Google'
+          };
+          dbRef.set(user, error => {
+            if(error) {
+              return res.status(500).json({ error: `User ${user.email} could not be save!` });
+            }
+            const token = jwt.sign(user, process.env.JWT_SECRET_KEY, { expiresIn: '1h'});
+            return res.status(200).json({token: token});
+          });
+        }
+      }).catch((err) => {
+        return res.status(500).json({ error: err.toString() });
+      })
+    }
+  } catch(err) {
+    return res.status(500).json({ error: err.toString() });
+  }
 }
